@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" namespace="cookbook" defaultPhpNamingMethod="underscore">
+  <table name="country" idMethod="native" phpName="Country" namespace="cookbook">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="30" required="true"/>
+    <column name="flag" phpName="Flag" type="VARCHAR" size="255" required="true"/>
+    <behavior name="validate">
+        <parameter name="country_name_notNull" value="{column: name, validator: NotNull, options:{message: 'valeur requise'}}" />
+        <parameter name="country_name_word" value="{column: name, validator: Regex, options: {pattern: '/^[A-Za-z]+$/', message: 'mot requis'}}" />
+        <parameter name="country_name_unique" value="{column: name, validator: Unique, options: {message: 'existe déjà'}}" />
+    </behavior>
+    <unique>
+        <unique-column name="name"/>
+    </unique>
+  </table>
+  <table name="ingredient" idMethod="native" phpName="Ingredient" namespace="cookbook">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="quantity" phpName="Quantity" type="SMALLINT" required="true"/>
+    <column name="unitId" phpName="Unitid" type="INTEGER"/>
+    <column name="ingredientId" phpName="Ingredientid" type="INTEGER" required="true"/>
+    <column name="recipeId" phpName="Recipeid" type="INTEGER" required="true"/>
+    <index name="ingredient_FI_1">
+      <index-column name="unitId"/>
+    </index>
+    <index name="ingredient_FI_2">
+      <index-column name="ingredientId"/>
+    </index>
+    <index name="ingredient_FI_3">
+      <index-column name="recipeId"/>
+    </index>
+  </table>
+  <table name="ingredient_type" idMethod="native" phpName="IngredientType" namespace="cookbook">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="30" required="true"/>
+    <behavior name="validate">
+        <parameter name="ingredient_type_name_notNull" value="{column: name, validator: NotNull, options:{message: 'valeur requise'}}" />
+        <parameter name="ingredient_type_name_word" value="{column: name, validator: Regex, options: {pattern: '/^[a-z]+$/', message: 'mot requis'}}" />
+        <parameter name="ingredient_type_name_unique" value="{column: name, validator: Unique, options: {message: 'existe déjà'}}" />
+    </behavior>
+  </table>
+  <table name="recipe_steps" idMethod="native" phpName="RecipeSteps" namespace="cookbook">
+    <column name="id" phpName="Id" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="description" phpName="Description" type="LONGVARCHAR" required="true"/>
+    <column name="order" phpName="Order" type="SMALLINT" required="true"/>
+    <column name="recipeId" phpName="Recipeid" type="INTEGER" required="true"/>
+    <index name="recipe_steps_FI_1">
+      <index-column name="recipeId"/>
+    </index>
+  </table>
+  <table name="recipe_type" idMethod="native" phpName="RecipeType" namespace="cookbook">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="30" required="true"/>
+  </table>
+  <table name="recipes" idMethod="native" phpName="Recipes" namespace="cookbook">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="60" required="true"/>
+    <column name="description" phpName="Description" type="VARCHAR" size="255"/>
+    <column name="photo" phpName="Photo" type="VARCHAR" size="255"/>
+    <column name="category" phpName="Category" type="INTEGER"/>
+    <column name="origin" phpName="Origin" type="INTEGER"/>
+    <column name="cost" phpName="Cost" type="TINYINT"/>
+    <column name="difficulty" phpName="Difficulty" type="TINYINT"/>
+    <column name="time" phpName="Time" type="TINYINT"/>
+    <column name="calories" phpName="Calories" type="TINYINT"/>
+    <index name="recipes_FI_1">
+      <index-column name="origin"/>
+    </index>
+    <index name="recipes_FI_2">
+      <index-column name="category"/>
+    </index>
+  </table>
+  <table name="tag_names" idMethod="native" phpName="TagNames" namespace="cookbook">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="30" required="true"/>
+  </table>
+  <table name="tags" idMethod="native" phpName="Tags" namespace="cookbook">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="recipeId" phpName="Recipeid" type="INTEGER" required="true"/>
+    <column name="tagId" phpName="Tagid" type="INTEGER" required="true"/>
+    <index name="tags_FI_1">
+      <index-column name="recipeId"/>
+    </index>
+    <index name="tags_FI_2">
+      <index-column name="tagId"/>
+    </index>
+  </table>
+  <table name="unit" idMethod="native" phpName="Unit" namespace="cookbook">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="15" required="true"/>
+    <behavior name="validate">
+        <parameter name="unit_name_notNull" value="{column: name, validator: NotNull, options:{message: 'valeur requise'}}" />
+        <parameter name="unit_name_word" value="{column: name, validator: Regex, options: {pattern: '/^[a-z]+$/', message: 'mot requis'}}" />
+        <parameter name="unit_name_unique" value="{column: name, validator: Unique, options: {message: 'existe déjà'}}" />
+    </behavior>
+    <unique>
+        <unique-column name="name"/>
+    </unique>
+  </table>
+  <table name="users" idMethod="native" phpName="Users" namespace="cookbook">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="username" phpName="Username" type="VARCHAR" size="60" required="true"/>
+    <column name="password" phpName="Password" type="VARCHAR" size="255" required="true"/>
+    <column name="accountType" phpName="Accounttype" type="TINYINT" size="2" required="true"/>
+    <column name="key" phpName="Key" type="VARCHAR" size="50"/>
+    <unique name="users_U_1">
+      <unique-column name="username"/>
+    </unique>
+  </table>
+</database>

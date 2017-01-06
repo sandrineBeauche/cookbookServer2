@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<project name="cookbookServer2" default="docs" basedir="." 
+         description="This is an example buildfile for Phing.">
+
+    <property name="propel.bin" value="./vendor/bin/propel" />
+    <property name="schema.opt" value="--schema-dir='./conf'" />
+    <property name="engine.mysql" value="--mysql-engine='MyISAM'" />
+    <property name="platform" value="--platform='${mysql}'" />
+    
+    <property name="config.dirs" value="./conf/envs/" />
+    <property name="config.default" value="${config.dirs}preprod" />
+    
+    <target name="build-model">
+        <exec command="${propel.bin} model:build --config-dir='${config.default}' ${schema.opt}"/>
+    </target>
+    
+    <target name="build-sql">
+        <exec command="${propel.bin} sql:build --config-dir='${config.default}' ${engine.mysql} ${schema.opt} --output-dir='./conf/generated-sql' --overwrite"/>
+    </target>
+    
+    <target name="config-convert">
+        <exec command="${propel.bin} config:convert --config-dir='${config.dirs}${currentEnv}' --output-dir='./conf/generated-conf/${currentEnv}'"/>
+    </target>
+    
+    <target name="configs-convert">
+        <phingcall target="config-convert">
+            <property name="currentEnv" value="preprod" />
+        </phingcall>
+        <phingcall target="config-convert">
+            <property name="currentEnv" value="prod" />
+        </phingcall>
+        <phingcall target="config-convert">
+            <property name="currentEnv" value="test" />
+        </phingcall>
+    </target>
+    
+    <target name="prepareDatabase">
+        <exec command="${propel.bin} sql:insert --config-dir='${config.dirs}${currentEnv}' --sql-dir='./conf/generated-sql'"/>
+    </target>
+    
+    <target name="setupDev">
+        <phingcall target="build-model"/>
+        <phingcall target="build-sql"/>
+        <phingcall target="config-convert">
+            <property name="currentEnv" value="preprod" />
+        </phingcall>
+        <phingcall target="config-convert">
+            <property name="currentEnv" value="test" />
+        </phingcall>
+        <phingcall target="prepareDatabase">
+            <property name="currentEnv" value="preprod" />
+        </phingcall>
+        <phingcall target="prepareDatabase">
+            <property name="currentEnv" value="test" />
+        </phingcall>
+    </target>
+    
+    <target name="setupProd">
+        <phingcall target="build-model"/>
+        <phingcall target="build-sql"/>
+        <phingcall target="config-convert">
+            <property name="currentEnv" value="prod" />
+        </phingcall>
+        <phingcall target="prepareDatabase">
+            <property name="currentEnv" value="prod" />
+        </phingcall>
+    </target>
+    
+    <target name="prepare">
+        <mkdir dir="docs"/>
+    </target>
+
+    <target name="docs">
+        <phpdoc title="Phing Example" destdir="docs" output="HTML:Smarty:PHP" linksource="true" quiet="true">
+            <fileset dir="src">
+                <include name="*.php"/>
+            </fileset>
+        </phpdoc>
+    </target>
+
+    <target name="clean">
+        <!--delete dir="docs"/-->
+    </target>
+
+</project>
