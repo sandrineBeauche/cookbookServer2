@@ -10,6 +10,6 @@ services:
   - mysql
   
 before_script:
-  - mysql -u root -e 'CREATE DATABASE IF NOT EXISTS cookbooktest;'
-  - mysql -u root -e 'CREATE USER IF NOT EXISTS 'devuser'@'localhost' IDENTIFIED BY 'devpass';'
-  - mysql -u root -e 'GRANT ALL ON cookbooktest.* TO 'devuser'@'localhost';'
+  - mysql -u root -e "CREATE DATABASE IF NOT EXISTS cookbooktest;"
+  - mysql -u root -e "CREATE USER IF NOT EXISTS 'devuser'@'localhost' IDENTIFIED BY 'devpass';"
+  - mysql -u root -e "GRANT ALL ON cookbooktest.* TO 'devuser'@'localhost';"
