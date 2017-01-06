@@ -60,6 +60,17 @@ and open the template in the editor.
         </phingcall>
     </target>
     
+    <target name="setupTest">
+        <phingcall target="build-model"/>
+        <phingcall target="build-sql"/>
+        <phingcall target="config-convert">
+            <property name="currentEnv" value="test" />
+        </phingcall>
+        <phingcall target="prepareDatabase">
+            <property name="currentEnv" value="test" />
+        </phingcall>
+    </target>
+    
     <target name="setupProd">
         <phingcall target="build-model"/>
         <phingcall target="build-sql"/>

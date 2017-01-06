@@ -13,3 +13,7 @@ before_script:
   - mysql -u root -e "CREATE DATABASE IF NOT EXISTS cookbooktest;"
   - mysql -u root -e "CREATE USER 'devuser'@'localhost' IDENTIFIED BY 'devpass';"
   - mysql -u root -e "GRANT ALL ON cookbooktest.* TO 'devuser'@'localhost';"
+  - composer install
+  - phing setupTest
+  
+
