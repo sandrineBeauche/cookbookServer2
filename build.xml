@@ -15,6 +15,8 @@ and open the template in the editor.
     <property name="config.dirs" value="./conf/envs/" />
     <property name="config.default" value="${config.dirs}preprod" />
     
+    <autoloader autoloaderpath="vendor/autoload.php"/>
+    
     <target name="build-model">
         <exec command="${propel.bin} model:build --config-dir='${config.default}' ${schema.opt}"/>
     </target>
@@ -96,6 +98,19 @@ and open the template in the editor.
 
     <target name="clean">
         <!--delete dir="docs"/-->
+    </target>
+    
+    
+    <target name="test">
+        <phpunit printsummary="true">
+            <formatter todir="reports" type="xml"/>
+            <batchtest>
+                <fileset dir="tests">
+                    <include name="**/*Test*.php"/>
+                    <exclude name="**/Abstract*.php"/>
+                </fileset>
+            </batchtest>
+        </phpunit>
     </target>
 
 </project>
