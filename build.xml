@@ -18,7 +18,7 @@ and open the template in the editor.
     <autoloader autoloaderpath="vendor/autoload.php"/>
     
     <target name="build-model">
-        <exec command="${propel.bin} model:build --config-dir='${config.default}' ${schema.opt}"/>
+        <exec command="${propel.bin} model:build --config-dir='${config.default}' ${schema.opt} --output-dir='.'"/>
     </target>
     
     <target name="build-sql">
@@ -97,7 +97,11 @@ and open the template in the editor.
     </target>
 
     <target name="clean">
-        <!--delete dir="docs"/-->
+        <delete>
+            <fileset dir="conf/envs">
+                <include name="**/*.dist" />
+            </fileset>
+        </delete>
     </target>
     
     
