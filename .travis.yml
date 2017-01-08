@@ -1,6 +1,5 @@
 language: php
 php:
-  - '5.5'
   - '5.6'
   - '7.0'
   - '7.1'
@@ -21,6 +20,7 @@ before_script:
   - phpenv rehash
     # build the project with phing
   - phing setupTest
+  - composer dump-autoload
 
 script: phing test
   
