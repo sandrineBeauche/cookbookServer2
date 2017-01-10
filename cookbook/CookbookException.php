@@ -8,7 +8,7 @@ class CookbookException extends \Exception {
     protected $httpCode = 500;
     
     
-    public function __construct(int $httpCode, string $message){
+    public function __construct($httpCode, string $message){
         parent::__construct($message);
         $this->httpCode = $httpCode;
     }
