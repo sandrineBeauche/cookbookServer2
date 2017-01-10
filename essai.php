@@ -3,14 +3,14 @@
 // setup the autoloading
 require __DIR__ . '/vendor/autoload.php';
 
-// setup Propel
-require_once __DIR__ .'/conf/generated-conf/config.php';
+//// setup Propel
+//require_once __DIR__ .'/conf/generated-conf/config.php';
+//
+//use cookbook\cookbook\UnitQuery as UnitQuery;
+//
+//$units = UnitQuery::create()->retrieveAll();
+//
+//echo "unités disponibles: ".json_encode($units);
 
-$q = new cookbook\cookbook\UsersQuery();
-$user = $q->findById(1);
-
-echo $user->toJSON();
-
-
-
+echo "Hello world!";
 ?>
