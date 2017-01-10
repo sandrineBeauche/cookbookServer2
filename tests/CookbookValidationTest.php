@@ -4,7 +4,7 @@ require_once __DIR__ ."/CookbookTest.php";
 
 abstract class CookbookValidationTest extends CookbookTest {
     
-    protected function processParamsAndValidate(string $className, $params){
+    protected function processParamsAndValidate($className, $params){
         $item = new $className();
         $this->invokeMethod($item, "processParams", [$params]);
         $result = $item->validate();
