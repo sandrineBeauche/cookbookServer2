@@ -107,6 +107,7 @@ and open the template in the editor.
         <autoloader autoloaderpath="vendor/autoload.php"/>
         <phpunit printsummary="true">
             <formatter todir="reports" type="xml"/>
+            <formatter type="plain" usefile="false"/>
             <batchtest>
                 <fileset dir="tests">
                     <include name="**/*Test*.php"/>
