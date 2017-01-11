@@ -21,7 +21,7 @@ script: phing test
     
 before_deploy:
 - phing buildDeploy
-- cd ./build
+- rm -f .gitignore
 
 deploy:
   provider: openshift
