@@ -15,9 +15,6 @@ and open the template in the editor.
     <property name="config.dirs" value="./conf/envs/" />
     <property name="config.default" value="${config.dirs}preprod" />
     
-    <property name="hasErrors" value="coucou" />
-    <property name="hasFailures" value="false" />
-    
     <target name="build-model">
         <exec command="${propel.bin} model:build --config-dir='${config.default}' ${schema.opt} --output-dir='.'"/>
     </target>
@@ -118,16 +115,18 @@ and open the template in the editor.
                 </fileset>
             </batchtest>
         </phpunit>
-<!--        <echo message="${hasErrors}"/>
-        <if>
-            <or>
-                <istrue value="${hasErrors}"/>
-                <istrue value="${hasFailures}"/>
-            </or>
-            <then>
-                <fail message="tests have errors or failures!"/>
-            </then>
-        </if>-->
     </target>
 
+    <target name="buildDeploy">
+        <mkdir dir="./build/www" />
+        <copy todir="./build/www" >
+            <fileset dir="." defaultexcludes="false">
+                <include name="conf/**" />
+                <include name="cookbook/**" />
+                <include name="build.xml"/>
+                <include name="composer.json" />
+                <include name="essai.php" />
+            </fileset>
+        </copy>
+    </target>
 </project>

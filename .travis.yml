@@ -1,9 +1,7 @@
 language: php
 
 php:
-- '5.6'
 - '7.0'
-- '7.1'
 
 services:
 - mysql
@@ -20,6 +18,10 @@ before_script:
 - composer dump-autoload
 
 script: phing test
+    
+before_deploy:
+- phing buildDeploy
+- cd ./build
 
 deploy:
   provider: openshift
@@ -28,3 +30,4 @@ deploy:
     secure: WuuHoCwTO//Qrn7kP1Fg0cizmZTmejJHOnSLJLGW67xQ2lLPATGZEOELdiLe7LW/JHaBecrTCN0urejQn3cCMrPIELGk4yhg2KEdisn4N+/V7PgKkOtUdcLh1gTug8hdwcdNO3a2Hg40lNELM6v4tjvsbQz8Dv4soD7VrWKNr00RFA/q1ACNAml7yuaWeerAKvRmAIXCYTTYIHoKzsY5XIv0U9pP3btU1VM9BBbYUs0rESacV8+4eqcn6oTiyAU/lzyda9AkYIZ+mwknLtDrKbHiKo3PhZdU4nO4atCg1k+bUTthFj5ryv+DSKjFcHFAcAEofS6Gzg16qHpn39SHw0bnw/jL0MnrxWbsvuGiDbwjGz7ksCC+CVkl/l+8C7GYMNFmT19hd6zUMGu2Ou8S3SsMH7hL4FLuFAvOyCqI0rzC1gpncXi8ADb+Bm1F+/m1tywAqyGRHyqE0yoctGb3tIHvocCJ9a1K5GybtRgYERyDUkKu38mMNeTP9hWa2xXViWfVd31fSemg+ZE/ZGIPsNgJHn2Xkya6rZPwklgZ6EGPjiLcMhfowQ+fPIVreQuvT8ZogHasbZ1Pga0wTnl9Fw2L95AzH9kX3psf5FA4iVwDgMgAbh/JgbmfYWe0NZeNBhMqXrLkGeVHZq7E9eYG2vBvYnFg+fTfp5fAV4reEdE=
   app: cookbook
   domain: chezsandrine
+  skip_cleanup: true
