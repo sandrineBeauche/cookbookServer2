@@ -14,6 +14,8 @@ and open the template in the editor.
     
     <property name="config.dirs" value="./conf/envs/" />
     <property name="config.default" value="${config.dirs}preprod" />
+    <property name="buildDir" value="build/www"/>
+    <property name="preprodDeployDir" value="/var/www/html/coobookServerPreprod"/>
     
     <target name="build-model">
         <exec command="${propel.bin} model:build --config-dir='${config.default}' ${schema.opt} --output-dir='.'"/>
@@ -47,13 +49,13 @@ and open the template in the editor.
         <phingcall target="build-model"/>
         <phingcall target="build-sql"/>
         <phingcall target="config-convert">
-            <property name="currentEnv" value="preprod" />
+            <property name="currentEnv" value="dev" />
         </phingcall>
         <phingcall target="config-convert">
             <property name="currentEnv" value="test" />
         </phingcall>
         <phingcall target="prepareDatabase">
-            <property name="currentEnv" value="preprod" />
+            <property name="currentEnv" value="dev" />
         </phingcall>
         <phingcall target="prepareDatabase">
             <property name="currentEnv" value="test" />
@@ -82,6 +84,17 @@ and open the template in the editor.
         </phingcall>
     </target>
     
+    <target name="setupPreprod">
+        <phingcall target="build-model"/>
+        <phingcall target="build-sql"/>
+        <phingcall target="config-convert">
+            <property name="currentEnv" value="preprod" />
+        </phingcall>
+        <phingcall target="prepareDatabase">
+            <property name="currentEnv" value="preprod" />
+        </phingcall>
+    </target>
+    
     <target name="prepare">
         <mkdir dir="docs"/>
     </target>
@@ -100,6 +113,12 @@ and open the template in the editor.
                 <include name="**/*.dist" />
             </fileset>
         </delete>
+        <delete dir="conf/generated-conf"/>
+        <delete dir="conf/generated-sql"/>
+        <delete dir="reports"/>
+        <delete dir="build"/>
+        <delete dir="cookbook/cookbook/Base"/>
+        <delete dir="cookbook/cookbook/Map"/>
     </target>
     
     
@@ -118,8 +137,8 @@ and open the template in the editor.
     </target>
 
     <target name="buildDeploy">
-        <mkdir dir="./build/www" />
-        <copy todir="./build/www" >
+        <mkdir dir="${buildDir}" />
+        <copy todir="${buildDir}" >
             <fileset dir="." defaultexcludes="false">
                 <include name="conf/**" />
                 <include name="cookbook/**" />
@@ -128,5 +147,25 @@ and open the template in the editor.
                 <include name="essai.php" />
             </fileset>
         </copy>
+        <phing phingfile="build.xml" inheritAll="false" dir="${buildDir}" target="clean" />
+    </target>
+    
+    <target name="updateDependencies">
+        <composer command="install" composer="/usr/local/bin/composer.phar"/>
+    </target>
+    
+    
+    <target name="deployPreprod" depends="buildDeploy">
+        <copy todir="${preprodDeployDir}">
+            <fileset dir="${buildDir}" defaultexcludes="false">
+                <include name="**/*" />
+            </fileset>
+        </copy>
+        <phing phingfile="build.xml" inheritAll="false" dir="${preprodDeployDir}" target="updateDependencies" />
+        <phing phingfile="build.xml" inheritAll="false" dir="${preprodDeployDir}" target="setupPreprod" />
+    </target>
+    
+    <target name="cleanPreprod">
+        <delete dir="${preprodDeployDir}"/>
     </target>
 </project>

@@ -19,10 +19,6 @@ before_script:
 
 script: phing test
     
-before_deploy:
-- phing buildDeploy
-- rm -f .gitignore
-
 deploy:
   provider: openshift
   user: sandrine.beauche@gmail.com
