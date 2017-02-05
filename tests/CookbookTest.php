@@ -2,7 +2,7 @@
 
 putenv("env=test");
 require __DIR__ ."/../vendor/autoload.php";
-require_once __DIR__ .'/../conf/generated-conf/config.php';
+require_once __DIR__ .'/../conf/config.php';
 
 abstract class CookbookTest extends PHPUnit_Extensions_Database_TestCase
 {
