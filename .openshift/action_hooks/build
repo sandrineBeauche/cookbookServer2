@@ -1,5 +1,6 @@
 #!/bin/bash
 echo Build the cookbook
+cp -r conf/envs/prod/openshift/config .
 composer install
 pear channel-discover pear.phing.info
 pear install phing/phing
@@ -7,5 +8,4 @@ phpenv rehash
 phing setupTest
 composer dump-autoload
 phing buildDeploy
-cp -r conf/envs/prod/openshift/config .
 cp -r build/www .
