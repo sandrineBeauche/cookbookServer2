@@ -20,10 +20,10 @@ fi
 
 echo Retrieving dependencies with composer...
 cd $OPENSHIFT_REPO_DIR ; 
-echo $OPENSHIFT_DATA_DIR
 php $OPENSHIFT_DATA_DIR/composer.phar install 
 
 echo Setup sources and build deploy
+php $OPENSHIFT_DATA_DIR/phing.phar -v
 php $OPENSHIFT_DATA_DIR/phing.phar setupProd
 php $OPENSHIFT_DATA_DIR/composer.phar dump-autoload
 php $OPENSHIFT_DATA_DIR/phing.phar buildDeploy
