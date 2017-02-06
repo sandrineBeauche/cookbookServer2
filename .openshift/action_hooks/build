@@ -23,8 +23,9 @@ cd $OPENSHIFT_REPO_DIR ;
 php $OPENSHIFT_DATA_DIR/composer.phar install 
 
 echo Setup sources and build deploy
-php $OPENSHIFT_DATA_DIR/phing.phar -v
-php $OPENSHIFT_DATA_DIR/phing.phar setupProd
+./vendor/bin/phing -v
+export env="prod"
+./vendor/bin/phing setupProd
 php $OPENSHIFT_DATA_DIR/composer.phar dump-autoload
-php $OPENSHIFT_DATA_DIR/phing.phar buildDeploy
+./vendor/bin/phing buildDeploy
 cp -r $OPENSHIFT_REPO_DIR/build/www $OPENSHIFT_REPO_DIR/www
