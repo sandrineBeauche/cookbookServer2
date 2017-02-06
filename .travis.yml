@@ -11,13 +11,10 @@ before_script:
 - mysql -u root -e "CREATE USER 'devuser'@'localhost' IDENTIFIED BY 'devpass';"
 - mysql -u root -e "GRANT ALL ON cookbooktest.* TO 'devuser'@'localhost';"
 - composer install
-- pear channel-discover pear.phing.info
-- pear install phing/phing
-- phpenv rehash
-- phing setupTest
+- ./vendor/bin/phing setupTest
 - composer dump-autoload
 
-script: phing test
+script: ./vendor/bin/phing test
     
 deploy:
   provider: openshift
