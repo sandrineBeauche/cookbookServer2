@@ -1,11 +1,28 @@
 #!/bin/bash
 echo Build the cookbook
-cp -r conf/envs/prod/openshift/config .
-composer install
-pear channel-discover pear.phing.info
-pear install phing/phing
-phpenv rehash
-phing setupTest
-composer dump-autoload
-phing buildDeploy
-cp -r build/www .
+cp -r $OPENSHIFT_REPO_DIR/conf/envs/prod/openshift/config $OPENSHIFT_REPO_DIR/config
+
+
+export COMPOSER_HOME="$OPENSHIFT_DATA_DIR/.composer"
+if [ ! -f "$OPENSHIFT_DATA_DIR/composer.phar" ]; then
+    echo Installing composer...
+    curl -s https://getcomposer.org/installer | php --install-dir=$OPENSHIFT_DATA_DIR
+else
+    echo Self-Update composer...
+    php $OPENSHIFT_DATA_DIR/composer.phar self-update
+fi
+
+if [ ! -f "$OPENSHIFT_DATA_DIR/phing.phar" ]; then
+    echo Installing phing...
+    curl -s http://www.phing.info/get/phing-2.15.2.phar -o $OPENSHIFT_DATA_DIR/phing.phar
+fi
+
+echo Retrieving dependencies with composer...
+cd $OPENSHIFT_REPO_DIR ; 
+php $OPENSHIFT_DATA_DIR/composer.phar install 
+
+echo Setup sources and build deploy
+php $OPENSHIFT_DATA_DIR/phing.phar setupTest
+php $OPENSHIFT_DATA_DIR/composer.phar dump-autoload
+php $OPENSHIFT_DATA_DIR/phing.phar buildDeploy
+cp -r $OPENSHIFT_REPO_DIR/build/www $OPENSHIFT_REPO_DIR/www
