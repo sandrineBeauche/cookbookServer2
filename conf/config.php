@@ -1,5 +1,5 @@
 <?php
-$env = getenv("env");
+$env = getenv("cookbook_env");
 if($env == false){
     //$env = "preprod";
     $env = "dev";
