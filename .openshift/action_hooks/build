@@ -13,10 +13,6 @@ else
     php $OPENSHIFT_DATA_DIR/composer.phar self-update
 fi
 
-if [ ! -f "$OPENSHIFT_DATA_DIR/phing.phar" ]; then
-    echo Installing phing...
-    curl -s http://www.phing.info/get/phing-2.15.2.phar -o $OPENSHIFT_DATA_DIR/phing.phar
-fi
 
 echo Retrieving dependencies with composer...
 cd $OPENSHIFT_REPO_DIR ; 
@@ -29,3 +25,4 @@ export env="prod"
 php $OPENSHIFT_DATA_DIR/composer.phar dump-autoload
 ./vendor/bin/phing buildDeploy
 cp -r $OPENSHIFT_REPO_DIR/build/www $OPENSHIFT_REPO_DIR/www
+./vendor/bin/phing clean
