@@ -16,7 +16,7 @@ fi
 
 echo Retrieving dependencies with composer...
 cd $OPENSHIFT_REPO_DIR ; 
-php $OPENSHIFT_DATA_DIR/composer.phar install 
+php $OPENSHIFT_DATA_DIR/composer.phar install --no-dev
 
 echo Setup sources and build deploy
 ./vendor/bin/phing -v

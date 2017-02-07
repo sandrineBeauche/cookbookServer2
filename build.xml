@@ -145,7 +145,7 @@ and open the template in the editor.
                 <include name="vendor/**" />
                 <include name="build.xml"/>
                 <include name="composer.json" />
-                <include name="essai.php" />
+                <include name="*.php" />
             </fileset>
         </copy>
     </target>
