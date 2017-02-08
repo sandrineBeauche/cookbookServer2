@@ -1,6 +1,10 @@
 #!/bin/bash
-echo Build the cookbook
-cp -r $OPENSHIFT_REPO_DIR/conf/envs/prod/openshift/config $OPENSHIFT_REPO_DIR/config
+echo Prepare the cookbook directory
+mv -r $OPENSHIFT_REPO_DIR/conf/envs/prod/openshift/config $OPENSHIFT_REPO_DIR/config
+mkdir $OPENSHIFT_REPO_DIR/www
+mv -r $OPENSHIFT_REPO_DIR/conf $OPENSHIFT_REPO_DIR/www/conf
+mv -r $OPENSHIFT_REPO_DIR/cookbook $OPENSHIFT_REPO_DIR/www/cookbook
+mv $OPENSHIFT_REPO_DIR/*.* $OPENSHIFT_REPO_DIR/www
 
 
 export COMPOSER_HOME="$OPENSHIFT_DATA_DIR/.composer"
@@ -15,14 +19,9 @@ fi
 
 
 echo Retrieving dependencies with composer...
-cd $OPENSHIFT_REPO_DIR ; 
+cd $OPENSHIFT_REPO_DIR/www ; 
 php $OPENSHIFT_DATA_DIR/composer.phar install --no-dev
 
-echo Setup sources and build deploy
-./vendor/bin/phing -v
-export cookbook_env="prod"
+echo build cookbook
 ./vendor/bin/phing setupProd
 php $OPENSHIFT_DATA_DIR/composer.phar dump-autoload
-./vendor/bin/phing buildDeploy
-cp -r $OPENSHIFT_REPO_DIR/build/www $OPENSHIFT_REPO_DIR/www
-./vendor/bin/phing clean
