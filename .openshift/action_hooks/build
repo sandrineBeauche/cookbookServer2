@@ -6,18 +6,6 @@ mv $OPENSHIFT_REPO_DIR/conf $OPENSHIFT_REPO_DIR/www/conf
 mv $OPENSHIFT_REPO_DIR/cookbook $OPENSHIFT_REPO_DIR/www/cookbook
 mv $OPENSHIFT_REPO_DIR/*.* $OPENSHIFT_REPO_DIR/www
 
-
-export COMPOSER_HOME="$OPENSHIFT_DATA_DIR/.composer"
-if [ ! -f "$OPENSHIFT_DATA_DIR/composer.phar" ]; then
-    echo Installing composer...
-    curl -s https://getcomposer.org/installer -o $OPENSHIFT_DATA_DIR/composer_install.php
-    php $OPENSHIFT_DATA_DIR/composer_install.php --install-dir=$OPENSHIFT_DATA_DIR
-else
-    echo Self-Update composer...
-    php $OPENSHIFT_DATA_DIR/composer.phar self-update
-fi
-
-
 echo Retrieving dependencies with composer...
 cd $OPENSHIFT_REPO_DIR/www ; 
 php $OPENSHIFT_DATA_DIR/composer.phar install --no-dev
@@ -25,3 +13,4 @@ php $OPENSHIFT_DATA_DIR/composer.phar install --no-dev
 echo build cookbook
 ./vendor/bin/phing setupProd
 php $OPENSHIFT_DATA_DIR/composer.phar dump-autoload
+export COOKBOOK_ENV="prod"
