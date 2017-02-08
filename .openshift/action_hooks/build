@@ -1,9 +1,9 @@
 #!/bin/bash
 echo Prepare the cookbook directory
-mv -r $OPENSHIFT_REPO_DIR/conf/envs/prod/openshift/config $OPENSHIFT_REPO_DIR/config
+mv $OPENSHIFT_REPO_DIR/conf/envs/prod/openshift/config $OPENSHIFT_REPO_DIR/config
 mkdir $OPENSHIFT_REPO_DIR/www
-mv -r $OPENSHIFT_REPO_DIR/conf $OPENSHIFT_REPO_DIR/www/conf
-mv -r $OPENSHIFT_REPO_DIR/cookbook $OPENSHIFT_REPO_DIR/www/cookbook
+mv $OPENSHIFT_REPO_DIR/conf $OPENSHIFT_REPO_DIR/www/conf
+mv $OPENSHIFT_REPO_DIR/cookbook $OPENSHIFT_REPO_DIR/www/cookbook
 mv $OPENSHIFT_REPO_DIR/*.* $OPENSHIFT_REPO_DIR/www
 
 
