@@ -1,4 +1,16 @@
 #!/bin/bash
+
+echo Verifying composer installation
+export COMPOSER_HOME="$OPENSHIFT_DATA_DIR/.composer"
+if [ ! -f "$OPENSHIFT_DATA_DIR/composer.phar" ]; then
+    echo Installing composer...
+    curl -s https://getcomposer.org/installer -o $OPENSHIFT_DATA_DIR/composer_install.php
+    php $OPENSHIFT_DATA_DIR/composer_install.php --install-dir=$OPENSHIFT_DATA_DIR
+else
+    echo Self-Update composer...
+    php $OPENSHIFT_DATA_DIR/composer.phar self-update
+fi
+
 echo Prepare the cookbook directory
 mv $OPENSHIFT_REPO_DIR/conf/envs/prod/openshift/config $OPENSHIFT_REPO_DIR/config
 mkdir $OPENSHIFT_REPO_DIR/www
@@ -13,4 +25,3 @@ php $OPENSHIFT_DATA_DIR/composer.phar install --no-dev
 echo build cookbook
 ./vendor/bin/phing setupProd
 php $OPENSHIFT_DATA_DIR/composer.phar dump-autoload
-export COOKBOOK_ENV="prod"
