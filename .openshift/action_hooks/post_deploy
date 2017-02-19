@@ -2,4 +2,3 @@
 echo Setting the database...
 cd $OPENSHIFT_REPO_DIR/www
 ./vendor/bin/phing setupDatabaseProd
-export COOKBOOK_ENV="prod"
