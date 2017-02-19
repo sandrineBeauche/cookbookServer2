@@ -79,6 +79,9 @@ and open the template in the editor.
         <phingcall target="config-convert">
             <property name="currentEnv" value="prod" />
         </phingcall>
+    </target>
+    
+    <target name="setupDatabaseProd">
         <phingcall target="prepareDatabase">
             <property name="currentEnv" value="prod" />
         </phingcall>
