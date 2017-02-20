@@ -45,6 +45,20 @@ and open the template in the editor.
         <exec command="${propel.bin} sql:insert --config-dir='${config.dirs}${currentEnv}' --sql-dir='./conf/generated-sql'"/>
     </target>
     
+    <target name="databaseDiff">
+        <exec command="${propel.bin} migration:diff --config-dir='${config.dirs}dev' ${schema.opt}"/>
+    </target>
+    
+    <target name="databaseMigrate">
+        <exec command="${propel.bin} migration:migrate --config-dir='${config.dirs}${currentEnv}'"/>
+    </target>
+    
+    <target name="databaseMigrateDev">
+        <phingcall target="databaseMigrate">
+            <property name="currentEnv" value="dev" />
+        </phingcall>
+    </target>
+    
     <target name="setupDev">
         <phingcall target="build-model"/>
         <phingcall target="build-sql"/>
@@ -75,25 +89,20 @@ and open the template in the editor.
     
     <target name="setupProd">
         <phingcall target="build-model"/>
-        <phingcall target="build-sql"/>
         <phingcall target="config-convert">
             <property name="currentEnv" value="prod" />
         </phingcall>
     </target>
     
     <target name="setupDatabaseProd">
-        <phingcall target="prepareDatabase">
+        <phingcall target="databaseMigrate">
             <property name="currentEnv" value="prod" />
         </phingcall>
     </target>
     
     <target name="setupPreprod">
         <phingcall target="build-model"/>
-        <phingcall target="build-sql"/>
         <phingcall target="config-convert">
-            <property name="currentEnv" value="preprod" />
-        </phingcall>
-        <phingcall target="prepareDatabase">
             <property name="currentEnv" value="preprod" />
         </phingcall>
     </target>
@@ -145,7 +154,6 @@ and open the template in the editor.
             <fileset dir="." defaultexcludes="false">
                 <include name="conf/**" />
                 <include name="cookbook/**" />
-                <include name="vendor/**" />
                 <include name="build.xml"/>
                 <include name="composer.json" />
                 <include name="*.php" />
@@ -154,7 +162,9 @@ and open the template in the editor.
     </target>
     
     <target name="updateDependencies">
-        <composer command="install" composer="/usr/local/bin/composer.phar"/>
+        <composer command="install" composer="/usr/local/bin/composer.phar">
+            <arg value="--no-dev" />
+        </composer>
     </target>
     
     
@@ -166,6 +176,9 @@ and open the template in the editor.
         </copy>
         <phing phingfile="build.xml" inheritAll="false" dir="${preprodDeployDir}" target="updateDependencies" />
         <phing phingfile="build.xml" inheritAll="false" dir="${preprodDeployDir}" target="setupPreprod" />
+        <phingcall target="databaseMigrate">
+            <property name="currentEnv" value="preprod" />
+        </phingcall>
     </target>
     
     <target name="cleanPreprod">
