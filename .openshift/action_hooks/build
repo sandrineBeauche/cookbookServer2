@@ -16,6 +16,7 @@ mv $OPENSHIFT_REPO_DIR/conf/envs/prod/openshift/config $OPENSHIFT_REPO_DIR/confi
 mkdir $OPENSHIFT_REPO_DIR/www
 mv $OPENSHIFT_REPO_DIR/conf $OPENSHIFT_REPO_DIR/www/conf
 mv $OPENSHIFT_REPO_DIR/cookbook $OPENSHIFT_REPO_DIR/www/cookbook
+mv $OPENSHIFT_REPO_DIR/generated-migrations $OPENSHIFT_REPO_DIR/www/generated-migrations
 mv $OPENSHIFT_REPO_DIR/*.* $OPENSHIFT_REPO_DIR/www
 cp $OPENSHIFT_DATA_DIR/propel.yml $OPENSHIFT_REPO_DIR/www/conf/envs/prod/propel.yml
 
