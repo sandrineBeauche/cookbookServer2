@@ -3,7 +3,7 @@
 if [ ! -f "$OPENSHIFT_PHP_DIR/usr/bin/phing" ]; then
     echo Installing phing
     curl -s http://www.phing.info/get/phing-latest.phar -o $OPENSHIFT_DATA_DIR/phing.phar
-    chmod +x $OPENSHIFT_DATA_DIR/phping.phar
+    chmod +x $OPENSHIFT_DATA_DIR/phing.phar
     cd $OPENSHIFT_PHP_DIR/usr/bin
     mv $OPENSHIFT_DATA_DIR/phing.phar phing
 fi
