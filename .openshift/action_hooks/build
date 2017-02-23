@@ -2,8 +2,9 @@
 
 if [ ! -f "$OPENSHIFT_PHP_DIR/usr/bin/phing" ]; then
     echo Installing phing
-    curl -s http://www.phing.info/get/phing-latest.phar -o $OPENSHIFT_DATA_DIR/phing.phar
-    chmod +x $OPENSHIFT_DATA_DIR/phing.phar
+    cd $OPENSHIFT_DATA_DIR
+    wget http://www.phing.info/get/phing-2.16.0.phar -O phing.phar
+    chmod +x phing.phar
     cd $OPENSHIFT_PHP_DIR/usr/bin
     mv $OPENSHIFT_DATA_DIR/phing.phar phing
 fi
@@ -11,8 +12,9 @@ fi
 
 if [ ! -f "$OPENSHIFT_PHP_DIR/usr/bin/phpdoc" ]; then
     echo Installing phpDocumentor
-    curl -s https://github.com/phpDocumentor/phpDocumentor2/releases/download/v2.9.0/phpDocumentor.phar -o $OPENSHIFT_DATA_DIR/phpDocumentor.phar
-    chmod +x $OPENSHIFT_DATA_DIR/phpDocumentor.phar
+    cd $OPENSHIFT_DATA_DIR
+    wget https://github.com/phpDocumentor/phpDocumentor2/releases/download/v2.9.0/phpDocumentor.phar
+    chmod +x phpDocumentor.phar
     cd $OPENSHIFT_PHP_DIR/usr/bin
     mv $OPENSHIFT_DATA_DIR/phpDocumentor.phar phpdoc
 fi
