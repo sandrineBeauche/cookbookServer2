@@ -1,14 +1,20 @@
 #!/bin/bash
 
-echo Verifying composer installation
-export COMPOSER_HOME="$OPENSHIFT_DATA_DIR/.composer"
-if [ ! -f "$OPENSHIFT_DATA_DIR/composer.phar" ]; then
-    echo Installing composer...
-    curl -s https://getcomposer.org/installer -o $OPENSHIFT_DATA_DIR/composer_install.php
-    php $OPENSHIFT_DATA_DIR/composer_install.php --install-dir=$OPENSHIFT_DATA_DIR
-else
-    echo Self-Update composer...
-    php $OPENSHIFT_DATA_DIR/composer.phar self-update
+if [ ! -f "$OPENSHIFT_PHP_DIR/usr/bin/phing" ]; then
+    echo Installing phing
+    curl -s http://www.phing.info/get/phing-latest.phar -o $OPENSHIFT_DATA_DIR/phing.phar
+    chmod +x $OPENSHIFT_DATA_DIR/phping.phar
+    cd $OPENSHIFT_PHP_DIR/usr/bin
+    mv $OPENSHIFT_DATA_DIR/phing.phar phing
+fi
+
+
+if [ ! -f "$OPENSHIFT_PHP_DIR/usr/bin/phpdoc" ]; then
+    echo Installing phpDocumentor
+    curl -s https://github.com/phpDocumentor/phpDocumentor2/releases/download/v2.9.0/phpDocumentor.phar -o $OPENSHIFT_DATA_DIR/phpDocumentor.phar
+    chmod +x $OPENSHIFT_DATA_DIR/phpDocumentor.phar
+    cd $OPENSHIFT_PHP_DIR/usr/bin
+    mv $OPENSHIFT_DATA_DIR/phpDocumentor.phar phpdoc
 fi
 
 echo Prepare the cookbook directory
@@ -22,8 +28,11 @@ cp $OPENSHIFT_DATA_DIR/propel.yml $OPENSHIFT_REPO_DIR/www/conf/envs/prod/propel.
 
 echo Retrieving dependencies with composer...
 cd $OPENSHIFT_REPO_DIR/www ; 
-php $OPENSHIFT_DATA_DIR/composer.phar install --no-dev
+composer self-update
+composer install --no-dev
 
 echo build cookbook
-./vendor/bin/phing setupProd
-php $OPENSHIFT_DATA_DIR/composer.phar dump-autoload
+phing setupProd
+composer dump-autoload
+
+phing docs

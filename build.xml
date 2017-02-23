@@ -107,16 +107,11 @@ and open the template in the editor.
         </phingcall>
     </target>
     
-    <target name="prepare">
-        <mkdir dir="docs"/>
-    </target>
+    
 
     <target name="docs">
-        <phpdoc title="Phing Example" destdir="docs" output="HTML:Smarty:PHP" linksource="true" quiet="true">
-            <fileset dir="src">
-                <include name="*.php"/>
-            </fileset>
-        </phpdoc>
+        <exec command="phpdoc"/>
+        <delete dir="data"/>
     </target>
 
     <target name="clean">
