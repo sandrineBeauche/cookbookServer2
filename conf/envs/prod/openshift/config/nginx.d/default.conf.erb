@@ -33,6 +33,10 @@ server {
         log_not_found off;
     }
 
+    location /cookbook/api/ {
+	try_files $uri /cookbook/api/api.php$is_args$args;
+    }
+
     # Handle any other URI
     location / {
         try_files $uri $uri/ =404;

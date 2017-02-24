@@ -15,7 +15,7 @@ and open the template in the editor.
     <property name="config.dirs" value="./conf/envs/" />
     <property name="config.default" value="${config.dirs}preprod" />
     <property name="buildDir" value="build/www"/>
-    <property name="preprodDeployDir" value="/var/www/html/coobookServerPreprod"/>
+    <property name="preprodDeployDir" value="/var/www/cookbookdev.localhost/public_html/preprod"/>
     
     <target name="build-model">
         <exec command="${propel.bin} model:build --config-dir='${config.default}' ${schema.opt} --output-dir='.'"/>
