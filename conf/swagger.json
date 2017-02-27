@@ -42,7 +42,7 @@
                     "200": {
                         "description": "unit successfully added",
                         "schema": {
-                            "$ref": "#/definitions/Unit"
+                            "$ref": "#/definitions/Id"
                         }
                     },
                     "400": {
@@ -128,7 +128,7 @@
                     "200": {
                         "description": "country successfully added",
                         "schema": {
-                            "$ref": "#/definitions/Country"
+                            "$ref": "#/definitions/Id"
                         }
                     },
                     "400": {
@@ -144,6 +144,52 @@
             }
         },
         "/countries/{countryId}": {
+            "put": {
+                "tags": [
+                    "country"
+                ],
+                "description": "Update the given country",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "countryId",
+                        "type": "string",
+                        "description": "the id of the country to be updated.",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "name",
+                        "type": "string",
+                        "description": "name of the country.",
+                        "required": true
+                    },
+                    {
+                        "in": "formData",
+                        "name": "flag",
+                        "type": "string",
+                        "description": "url to the flag image of the country",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "country successfully updated",
+                        "schema": {
+                            "$ref": "#/definitions/Id"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ValidationError"
+                            }
+                        }
+                    }
+                }
+            },
             "delete": {
                 "tags": [
                     "country"
@@ -197,6 +243,15 @@
                 },
                 "flag": {
                     "type": "string"
+                }
+            }
+        },
+        "Id": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
                 }
             }
         },

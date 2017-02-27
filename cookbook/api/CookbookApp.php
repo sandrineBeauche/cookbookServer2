@@ -23,6 +23,12 @@ class CookbookApp extends \Slim\App {
     protected function setupRoutes(){
         /** Gets all the units ordered by name. */
         $this->GET('/units', [ 'cookbook\controllers\UnitController', 'doGet']);
+        
+        /** creates a new unit */
+        $this->POST('/units', [ 'cookbook\controllers\UnitController', 'doCreate']);
+        
+        /** delete a unit */
+        $this->DELETE('/units/{id}', [ 'cookbook\controllers\UnitController', 'doDelete']);
     }
 }
 
