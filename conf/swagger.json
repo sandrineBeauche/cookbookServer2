@@ -4,7 +4,7 @@
         "version": "0.0.1",
         "title": "cookbook"
     },
-    "basePath": "/dev/cookbook/api",
+    "basePath": "/cookbook/api",
     "paths": {
         "/units": {
             "get": {
