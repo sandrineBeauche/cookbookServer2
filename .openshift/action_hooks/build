@@ -23,6 +23,7 @@ echo Prepare the cookbook directory
 mv $OPENSHIFT_REPO_DIR/conf/envs/prod/openshift/config $OPENSHIFT_REPO_DIR/config
 mkdir $OPENSHIFT_REPO_DIR/www
 mv $OPENSHIFT_REPO_DIR/conf $OPENSHIFT_REPO_DIR/www/conf
+mv $OPENSHIFT_REPO_DIR/docs $OPENSHIFT_REPO_DIR/www/docs
 mv $OPENSHIFT_REPO_DIR/cookbook $OPENSHIFT_REPO_DIR/www/cookbook
 mv $OPENSHIFT_REPO_DIR/generated-migrations $OPENSHIFT_REPO_DIR/www/generated-migrations
 mv $OPENSHIFT_REPO_DIR/*.* $OPENSHIFT_REPO_DIR/www
