@@ -50,9 +50,19 @@ trait CrudOperations {
      * Performs the update CRUD operation.
      * @param type $params the new data of the object.
      */
-    public function update($params){
-        $this->processParams($params);
-        $this->save();
+    public static function update($id, $params){
+        $queryClass = self::class.'Query';
+        $q = call_user_func(array($queryClass, 'create'));
+        $item = $q->findPk($id);
+        if(isset($item)){
+           $item->processParams($params);
+           $item->save();
+        }
+        else{
+            throw new \cookbook\NotFoundException(self::class, $id);
+        }
+        
+        
     }
     
     /**

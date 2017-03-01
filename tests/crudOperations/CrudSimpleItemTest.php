@@ -39,21 +39,21 @@ class CrudSimpleItemTest extends CookbookTest {
     
     
     public function testUpdateSimpleItem(){
-        $unit = UnitQuery::create()->findPk(1);
-        $unit->update(["name" => "bla"]);
+        Unit::update(1, ["name" => "bla"]);
         
+        $unit = UnitQuery::create()->findPk(1);
         $this->assertEquals("bla", $unit->getName());
     }
     
     
     public function testUpdateSimpleItem_invalid(){
         $this->expectException(cookbook\ValidationFailureException::class);
-        $unit = UnitQuery::create()->findPk(1);
         
         try{
-            $unit->update(["name" => "123"]);
+            Unit::update(1, ["name" => "123"]);
         }
         catch(Exception $ex){
+            $unit = UnitQuery::create()->findPk(1);
             $unit->reload();
             $this->assertEquals("gr", $unit->getName());
             throw $ex;

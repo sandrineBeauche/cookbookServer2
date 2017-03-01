@@ -29,6 +29,20 @@ class CookbookApp extends \Slim\App {
         
         /** delete a unit */
         $this->DELETE('/units/{id}', [ 'cookbook\controllers\UnitController', 'doDelete']);
+        
+        
+        
+        /** Gets all the countries ordered by name. */
+        $this->GET('/countries', [ 'cookbook\controllers\CountryController', 'doGet']);
+        
+        /** creates a new country */
+        $this->POST('/countries', [ 'cookbook\controllers\CountryController', 'doCreate']);
+        
+        /** updates a country */
+        $this->PUT('/countries/{id}', [ 'cookbook\controllers\CountryController', 'doUpdate']);
+        
+        /** delete a country */
+        $this->DELETE('/countries/{id}', [ 'cookbook\controllers\CountryController', 'doDelete']);
     }
 }
 
