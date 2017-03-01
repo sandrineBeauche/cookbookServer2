@@ -28,7 +28,7 @@ abstract class CookbookTest extends PHPUnit_Extensions_Database_TestCase
         return $compositeDs;
     }
     
-    protected function assertRowCount(int $nbRows, string $tableName){
+    protected function assertRowCount($nbRows, $tableName){
         $this->assertEquals($nbRows, $this->getConnection()->getRowCount($tableName));
     }
 }

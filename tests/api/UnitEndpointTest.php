@@ -9,7 +9,7 @@ class UnitEndpointTest extends CookbookEndpointTest {
         return parent::generateDataset(array("units.yml"));
     }
     
-    protected function assertUnitRowCount(int $nbRow){
+    protected function assertUnitRowCount($nbRow){
         $this->assertRowCount($nbRow, 'unit');
     }
     
