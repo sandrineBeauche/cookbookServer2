@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php" >
+  <testsuites>
+    <testsuite name="tests">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
+  
+  <filter>
+    <whitelist processUncoveredFilesFromWhitelist="true">
+        <directory suffix=".php">cookbook</directory>
+        <exclude>
+            <directory suffix=".php">cookbook/cookbook/Base</directory>
+            <directory suffix=".php">cookbook/cookbook/Map</directory>
+        </exclude>
+    </whitelist>
+ </filter>
+ 
+ <logging>
+  <log type="coverage-clover" target="reports/coverage.xml"/>
+  <log type="testdox-text" target="reports/testdox.txt"/>
+</logging>
+</phpunit>

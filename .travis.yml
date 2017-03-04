@@ -21,6 +21,9 @@ before_script:
 
 script: phing test
 
+after_success:
+  - travis_retry php vendor/bin/coveralls
+
 deploy:
   provider: openshift
   user: sandrine.beauche@gmail.com

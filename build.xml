@@ -130,17 +130,9 @@ and open the template in the editor.
     
     
     <target name="test">
-        <autoloader autoloaderpath="vendor/autoload.php"/>
-        <phpunit printsummary="true" haltonerror="true" haltonfailure="true">
-            <formatter todir="reports" type="xml"/>
-            <formatter type="plain" usefile="false"/>
-            <batchtest>
-                <fileset dir="tests">
-                    <include name="**/*Test*.php"/>
-                    <exclude name="**/Abstract*.php"/>
-                </fileset>
-            </batchtest>
-        </phpunit>
+        <exec command="./vendor/bin/phpunit"/>
+        <exec command="cat reports/testdox.txt" passthru="true"/>
+        <copy file="reports/coverage.xml" tofile="build/logs/clover.xml" overwrite="true"/>
     </target>
 
     <target name="buildDeploy">

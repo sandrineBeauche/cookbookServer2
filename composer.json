@@ -9,11 +9,13 @@
     ],
     "require": {
         "slim/slim": "^3.3",
-        "propel/propel": "~2.0@dev"
+        "propel/propel": "2.0.0-alpha7"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.4",
-        "phpunit/dbunit": "^2.0"
+        "phpunit/dbunit": "^2.0",
+        "phpunit/php-code-coverage": "^4",
+        "satooshi/php-coveralls": "^1.0"
     },
     "autoload": {
         "classmap": ["cookbook", "cookbook/cookbook"]
